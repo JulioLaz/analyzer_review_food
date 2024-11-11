@@ -1,0 +1,28 @@
+# Entornos virtuales
+venv/
+.env
+
+# Archivos de base de datos
+db.sqlite3
+*.sqlite3
+
+# Archivos de caché y compilados
+__pycache__/
+*.pyc
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+
+# Archivos de configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de paquetes
+*.egg-info/
+
+# Archivos de logs
+*.log
+
+# Carpetas de migraciones
+*/migrations/
