@@ -160,7 +160,8 @@
                         }
                     }
 
-                    if (data.positive && data.negative !== false) {
+                    if (data.positive || data.negative > 0) {
+                    // if (data.positive && data.negative !== false) {
                         createSentimentChart(data.positive , data.negative, 'sentimentChart');
                     }
 

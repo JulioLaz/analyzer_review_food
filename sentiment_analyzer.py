@@ -5,11 +5,15 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier  # Cambio a SGD por ser más ligero
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer  # Cambio a stemming por ser más ligero
+from datetime import datetime
+import pytz
 import pickle
 import re
 import string
 import nltk
 # from nltk.tokenize import word_tokenize
+local_tz = pytz.timezone('America/Argentina/Buenos_Aires')
+local_time_now = datetime.now(local_tz).strftime("%d_%b_%Y_%Hhs_%Mmin")
 
 def download_nltk_resources():
     """Descarga recursos necesarios de NLTK"""
@@ -24,22 +28,20 @@ print("Downloading NLTK resources...")
 download_nltk_resources()
 
 ngram=2
-features=10000
-path=f'optimized_sentiment_model_{ngram}_{features}.pkl'
+features=15000
+path=f'optimized_sentiment_model_{ngram}_{features}_{local_time_now}.pkl'
 
 class OptimizedSentimentAnalyzer:
     def __init__(self):
-        # Reducir características y usar compresión
         self.vectorizer = TfidfVectorizer(
-            max_features=features,  # Reducido de 10000 a 3000
-            ngram_range=(1, ngram),  # Reducido de (1,3) a (1,2)
-            min_df=5,  # Aumentado para reducir características
+            max_features=features,  
+            ngram_range=(1, ngram),
+            min_df=4,  # Aumentado para reducir características
             max_df=0.9,
             strip_accents='unicode',
-            sublinear_tf=True  # Aplica escala logarítmica para reducir varianza
+            sublinear_tf=True  # Aplico escala logarítmica para reducir varianza
         )
         
-        # Usar SGD en lugar de RandomForest (mucho más ligero)
         self.model = SGDClassifier(
             loss='modified_huber',  # Permite probabilidades
             penalty='l2',
@@ -52,7 +54,7 @@ class OptimizedSentimentAnalyzer:
         
         self.stop_words = set(stopwords.words('english'))
         self.stemmer = PorterStemmer()  # Stemming en lugar de lemmatization
-        vocab = self.vectorizer.vocabulary
+        # vocab = self.vectorizer.vocabulary
         # Lista reducida de palabras de negación más comunes
         self.negation_words = {'no', 'not', "n't", 'never', 'none', 'nobody', 'nowhere'}
     
@@ -129,11 +131,12 @@ class OptimizedSentimentAnalyzer:
             
             print("Vectorizing and training...")
             X_train_vec = self.vectorizer.fit_transform(X_train)
-            # X_train_vec=X_train_vec.astype(np.float32)
+            X_train_vec=X_train_vec.astype(np.float32)
             self.model.fit(X_train_vec, y_train)
             
             # Evaluación rápida
             X_test_vec = self.vectorizer.transform(X_test)
+            X_test_vec=X_test_vec.astype(np.float32)
             accuracy = self.model.score(X_test_vec, y_test)
             print(f"\nModel Accuracy: {accuracy:.2f}")
             
@@ -163,11 +166,10 @@ class OptimizedSentimentAnalyzer:
 
     def save_model(self, model_path=path):
         with open(model_path, 'wb') as f:
-            # Usar protocolo más eficiente de pickle
             pickle.dump({
                 'vectorizer': self.vectorizer,
                 'model': self.model,
-                'vocabulary': self.vectorizer.vocabulary  # Incluye el vocabulario
+                'vocabulary': self.vectorizer.vocabulary  # Incluir vocabulario
             }, f, protocol=4)
     
     @classmethod
@@ -181,32 +183,32 @@ class OptimizedSentimentAnalyzer:
 
         return analyzer
 
-# if __name__ == "__main__":
-#     try:
-#         print("Initializing analyzer...")
-#         analyzer = OptimizedSentimentAnalyzer()
+if __name__ == "__main__":
+    try:
+        print("Initializing analyzer...")
+        analyzer = OptimizedSentimentAnalyzer()
         
-#         # Usar solo una muestra de los datos para entrenamiento
-#         print("\nStarting training...")
-#         analyzer.train('Reviews.csv', sample_size=50000)  # Ajusta este número según necesites
+        # Usar solo una muestra de los datos para entrenamiento
+        print("\nStarting training...")
+        analyzer.train('Reviews.csv', sample_size=50000)  # Ajusta este número según necesites
         
-#         print("\nSaving model...")
-#         analyzer.save_model(path)
+        print("\nSaving model...")
+        analyzer.save_model(path)
         
-#         # Prueba rápida
-#         test_texts = [
-#             "i think it was not good",
-#             "this product is excellent",
-#             "terrible experience, would not recommend"
-#         ]
+        # Prueba rápida
+        test_texts = [
+            "i think it was not good",
+            "this product is excellent",
+            "terrible experience, would not recommend"
+        ]
         
-#         print("\nTesting predictions:")
-#         for text in test_texts:
-#             result = analyzer.predict(text)
-#             print(f"\nText: '{text}'")
-#             print(f"Sentiment: {result['sentiment']}")
-#             if 'confidence' in result:
-#                 print(f"Confidence: {result['confidence']:.1f}%")
+        print("\nTesting predictions:")
+        for text in test_texts:
+            result = analyzer.predict(text)
+            print(f"\nText: '{text}'")
+            print(f"Sentiment: {result['sentiment']}")
+            if 'confidence' in result:
+                print(f"Confidence: {result['confidence']:.1f}%")
         
-#     except Exception as e:
-#         print(f"\nError in main execution: {str(e)}")
+    except Exception as e:
+        print(f"\nError in main execution: {str(e)}")
