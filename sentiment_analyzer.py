@@ -28,7 +28,7 @@ print("Downloading NLTK resources...")
 download_nltk_resources()
 
 ngram=2
-features=15000
+features=20000
 path=f'optimized_sentiment_model_{ngram}_{features}_{local_time_now}.pkl'
 
 class OptimizedSentimentAnalyzer:
@@ -44,6 +44,7 @@ class OptimizedSentimentAnalyzer:
         
         self.model = SGDClassifier(
             loss='modified_huber',  # Permite probabilidades
+            # loss='log_loss',  # Permite probabilidades
             penalty='l2',
             alpha=1e-4,
             max_iter=100,
@@ -69,7 +70,6 @@ class OptimizedSentimentAnalyzer:
             
             # Tokenización simple y eficiente
             words = text.split()
-            
             # Procesamiento optimizado
             processed_words = []
             negation = False
@@ -107,6 +107,8 @@ class OptimizedSentimentAnalyzer:
         try:
             print("Loading data...")
             df = pd.read_csv(data_path)
+            df= df.drop_duplicates()
+            df= df.dropna(subset='Text')
             
             # Opcionalmente usar solo una muestra de los datos
             if sample_size:
@@ -180,7 +182,6 @@ class OptimizedSentimentAnalyzer:
             analyzer.vectorizer = components['vectorizer']
             analyzer.model = components['model']
             analyzer.vocab = components.get('vocabulary', analyzer.vectorizer.vocabulary)  # Cargar vocabulario
-
         return analyzer
 
 if __name__ == "__main__":
@@ -195,6 +196,8 @@ if __name__ == "__main__":
         print("\nSaving model...")
         analyzer.save_model(path)
         
+        print('Count Tokens:', len(analyzer.vectorizer.get_feature_names_out()))
+
         # Prueba rápida
         test_texts = [
             "i think it was not good",

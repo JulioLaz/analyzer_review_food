@@ -7,7 +7,8 @@ import gemini
 app = Flask(__name__)
 
 # analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_10000.pkl')
-analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_15000_11_Nov_2024_18hs_01min.pkl')
+# analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_15000_11_Nov_2024_18hs_01min.pkl')
+analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_20000_11_Nov_2024_20hs_11min.pkl')
 vocab = analyzer.vectorizer.vocabulary_
 
 @app.route('/', methods=['GET', 'POST'])
@@ -26,8 +27,8 @@ def analyze_sentiment():
             translated_text = 'Lo siento, tengo problemas para traducir este texto.'
         
         # Get Gemini analysis
-      #   analyzer_gemini = '50% positive, 50% negative'  # Replace with actual gemini.chat(text)
-        analyzer_gemini = gemini.chat(text)
+        analyzer_gemini = '50% positive, 50% negative'  # Replace with actual gemini.chat(text)
+      #   analyzer_gemini = gemini.chat(text)
 
         print('analyzer_gemini:', analyzer_gemini)
         

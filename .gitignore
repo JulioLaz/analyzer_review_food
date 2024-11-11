@@ -28,3 +28,6 @@ Thumbs.db
 
 # Carpetas de migraciones
 */migrations/
+
+# archivos csv
+Reviews.csv
