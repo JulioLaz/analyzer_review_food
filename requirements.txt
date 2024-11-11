@@ -1,11 +1,8 @@
-django
-numpy
+google-generativeai
+python-dotenv
+flask
+deep-translator
 pandas
+numpy
 scikit-learn
 nltk
-gunicorn
-dj-database-url
-psycopg2-binary
-python-dotenv
-deep-translator==1.11.4
-google-generativeai==0.8.3
