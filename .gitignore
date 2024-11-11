@@ -2,6 +2,8 @@
 venv/
 .env
 
+review_venv/
+.env
 # Archivos de base de datos
 db.sqlite3
 *.sqlite3
