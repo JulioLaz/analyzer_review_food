@@ -148,7 +148,7 @@
                         document.getElementById('nullScore').textContent = 'Lo siento, tengo limitaciones para interpretar esta reseña, mi modelo es limitado!';
                     }
 
-                    if (data.positive_gemini !== 0 || data.negative_gemini !== 0) {
+                    if (data.positive_gemini > 0 || data.negative_gemini > 0) {
                         document.getElementById('positive_gemini').textContent = `😁 ${data.positive_gemini}%`;
                         document.getElementById('negative_gemini').textContent = `😫 ${data.negative_gemini}%`;
                     } else {
