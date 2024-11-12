@@ -40,8 +40,8 @@ def analyze_sentiment():
         
         # Get Gemini analysis
       #   analyzer_gemini = '40% positive, 60% negative'  # Replace with actual gemini.chat(text)
-        analyzer_gemini = 'Lo siento, tengo problemas para traducir este texto.'
-      #   analyzer_gemini = gemini.chat(text)
+      #   analyzer_gemini = 'Lo siento, tengo problemas para traducir este texto.'
+        analyzer_gemini = gemini.chat(text)
 
         print('analyzer_gemini:', analyzer_gemini)
         
