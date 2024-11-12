@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Sentiment Analysis</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23e46f2f' width='24px' height='24px' viewBox='0 0 52 52' stroke='%23e46f2f'><path d='M26,2C12.8,2,2,12.8,2,26.1c0,13.3,10.8,24.1,24,24.1s24-10.8,24-24.1C50,12.8,39.2,2,26,2z M17,15 c1.7,0,3,1.8,3,4c0,2.2-1.3,4-3,4c-1.7,0-3-1.8-3-4C14,16.8,15.3,15,17,15z M14,38.7c0.5-6.1,5-11.2,12.1-11.2 c7,0,11.4,5.1,11.9,11.2H14z M35,23c-1.7,0-3-1.8-3-4c0-2.2,1.3-4,3-4c1.7,0,3,1.8,3,4C38,21.2,36.7,23,35,23z'/></svg>">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23e46f2f' width='24px' height='24px' viewBox='0 0 52 52' stroke='%23e46f2f'><path d='M26,2C12.8,2,2,12.8,2,26.1c0,13.3,10.8,24.1,24,24.1s24-10.8,24-24.1C50,12.8,39.2,2,26,2z M17,15 c1.7,0,3,1.8,3,4c0,2.2-1.3,4-3,4c-1.7,0-3-1.8-3-4C14,16.8,15.3,15,17,15z M14,38.7c0.5-6.1,5-11.2,12.1-11.2 c7,0,11.4,5.1,11.9,11.2H14z M35,23c-1.7,0-3-1.8-3-4c0-2.2,1.3-4,3-4c1.7,0,3,1.8,3,4C38,21.2,36.7,23,35,23z'/></svg>">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
@@ -10,15 +12,85 @@
             border-top-color: #3498db;
             animation: spinner 1s ease-in-out infinite;
         }
+
         @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body class="bg-gray-900 min-h-screen">
     <div class="container mx-auto px-4 py-6">
-        <h1 class="text-2xl font-bold mb-2 text-center text-blue-300">Sentiment Analysis for Food Reviews</h1>
+        <div class="flex items-center justify-center">
+            <h1 class="text-2xl font-bold mb-2 text-center text-blue-300 mr-6">Sentiment Analysis for Food Reviews</h1>
+            <button id="showModalBtn" class=" text-white ml-6 mb-2 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" >
+                <svg fill="#3b82f6" width="36px" height="36px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier"> <path d="M960 0c530.193 0 960 429.807 960 960s-429.807 960-960 960S0 1490.193 0 960 429.807 0 960 0Zm223.797 707.147c-28.531-29.561-67.826-39.944-109.227-39.455-55.225.657-114.197 20.664-156.38 40.315-100.942 47.024-178.395 130.295-242.903 219.312-11.616 16.025-17.678 34.946 2.76 49.697 17.428 12.58 29.978 1.324 40.49-9.897l.69-.74c.801-.862 1.591-1.72 2.37-2.565 11.795-12.772 23.194-25.999 34.593-39.237l2.85-3.31 2.851-3.308c34.231-39.687 69.056-78.805 115.144-105.345 27.4-15.778 47.142 8.591 42.912 35.963-2.535 16.413-11.165 31.874-17.2 47.744-21.44 56.363-43.197 112.607-64.862 168.888-23.74 61.7-47.405 123.425-70.426 185.398l-2 5.38-1.998 5.375c-20.31 54.64-40.319 108.872-53.554 165.896-10.575 45.592-24.811 100.906-4.357 145.697 11.781 25.8 36.77 43.532 64.567 47.566 37.912 5.504 78.906 6.133 116.003-2.308 19.216-4.368 38.12-10.07 56.57-17.005 56.646-21.298 108.226-54.146 154.681-92.755 47.26-39.384 88.919-85.972 126.906-134.292 12.21-15.53 27.004-32.703 31.163-52.596 3.908-18.657-12.746-45.302-34.326-34.473-11.395 5.718-19.929 19.867-28.231 29.27-10.42 11.798-21.044 23.423-31.786 34.92-21.488 22.987-43.513 45.463-65.634 67.831-13.54 13.692-30.37 25.263-47.662 33.763-21.59 10.609-38.785-1.157-36.448-25.064 2.144-21.954 7.515-44.145 15.046-64.926 30.306-83.675 61.19-167.135 91.834-250.686 19.157-52.214 38.217-104.461 56.999-156.816 17.554-48.928 32.514-97.463 38.834-149.3 4.357-35.71-4.9-72.647-30.269-98.937Zm63.72-401.498c-91.342-35.538-200.232 25.112-218.574 121.757-13.25 69.784 13.336 131.23 67.998 157.155 105.765 50.16 232.284-29.954 232.29-147.084.005-64.997-28.612-111.165-81.715-131.828Z" fill-rule="evenodd"/> </g>
+                 </svg>
+            </button>
+        </div>
+
+        <!-- Ventana emergente -->
+        <div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
+            aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
+
+                </div> <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                </svg> </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Info
+                                </h3>
+                                <div class="mt-2 flex flex-col items-end">
+                                    <p class="text-sm text-gray-500">
+                                        Analizador de sentimiento de reseñas o comentarios referidos a productos alimenticios.
+                                        Evalúa el sentimiento en % de positivo o negativo, además califica con estrellas de acuerdo a lo positivo.
+                                        Para la valoración del sentimiento se entrenó un modelo SGDClassifier, el cual es contrastado con IA-gemini 1.5 entrenada para este mismo cometido!
+                                    </p>
+                                    <a href="https://github.com/JulioLaz/analyzer_review_food" target="_blank" class="text-gray-700 text-center mt-4">
+                                    <svg width="32px" height="32px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <g id="SVGRepo_iconCarrier"> <title>github [#142]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -7559.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399" id="github-[#142]"> </path> </g> </g> </g> </g>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"> <button id="closeModalBtn"
+                            type="button"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Cerrar </button> </div>
+                </div>
+            </div>
+        </div>
+        <script> // Obtener elementos 
+            const showModalBtn = document.getElementById('showModalBtn'); const modal = document.getElementById('modal'); const closeModalBtn = document.getElementById('closeModalBtn');
+            showModalBtn.addEventListener('click', () => { modal.classList.remove('hidden'); });  // Mostrar el modal 
+            closeModalBtn.addEventListener('click', () => { modal.classList.add('hidden'); });  // Cerrar el modal 
+            window.addEventListener('click', (event) => { if (event.target === modal) { modal.classList.add('hidden'); } }); // Cerrar el modal al hacer clic fuera del contenido 
+        </script>
 
         <div class="max-w-xl mx-auto bg-white rounded-lg shadow-md px-6 py-2">
             <form id="sentimentForm" class="space-y-4">
@@ -26,10 +98,13 @@
                     <label class="block text-lg font-medium text-gray-700 mb-1">
                         Enter Food Reviews:
                     </label>
-                    <textarea id="textInput" name="text" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" required></textarea>
+                    <textarea id="textInput" name="text" rows="3"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                        required></textarea>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1">
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1">
                     Analyze Sentiment
                 </button>
             </form>
@@ -42,7 +117,7 @@
                 <div class="text-center">
                     <span class="text-gray-600 text-lg mt-3">SGDClassifier analysis result:</span>
                     <span id="start_sgd" class="text-gray-500"></span>
-                </div>                
+                </div>
                 <div class="sgd_class flex items-center justify-center">
                     <div id='id_pos' class="text-yellow-500 text-lg font-bold mt-2 text-center mx-auto result_sgd_pos">
                         <span>Positive:</span>
@@ -96,7 +171,7 @@
             const clearPreviousResults = () => {
                 document.getElementById('result').classList.add('hidden');
                 ['positiveScore', 'negativeScore', 'nullScore', 'positive_gemini',
-                    'negative_gemini', 'translated_text', 'latency','start_genimi','start_sgd'].forEach(id => {
+                    'negative_gemini', 'translated_text', 'latency', 'start_genimi', 'start_sgd'].forEach(id => {
                         document.getElementById(id).textContent = '';
                     });
             };
@@ -104,7 +179,7 @@
             clearPreviousResults();
             document.getElementById('spinner').classList.remove('hidden');
 
-            ['result_pos','result_neg','result_sgd_neg','result_sgd_pos', 'text_red', 'sentimentChart', 'sentimentChart_gemini', 'sgd_class'].forEach(className => {
+            ['result_pos', 'result_neg', 'result_sgd_neg', 'result_sgd_pos', 'text_red', 'sentimentChart', 'sentimentChart_gemini', 'sgd_class'].forEach(className => {
                 document.querySelector('.' + className)?.classList.remove('hidden');
             });
 
@@ -156,10 +231,10 @@
                     if (data.filtered_text !== '' && data.result && data.positive >= 0) {
                         document.getElementById('positiveScore').textContent = `😁 ${(data.positive * 100).toFixed(0)}%`;
                         document.getElementById('negativeScore').textContent = `😫 ${(data.negative * 100).toFixed(0)}%`;
-                        if (data.positive >=0.95) {document.querySelector('.result_sgd_neg').classList.add('hidden');}
-                        else {document.querySelector('.result_sgd_neg').classList.remove('hidden')}
-                        if (data.negative >=0.95) {document.querySelector('.result_sgd_pos').classList.add('hidden');}
-                        else {document.querySelector('.result_sgd_pos').classList.remove('hidden')}
+                        if (data.positive >= 0.95) { document.querySelector('.result_sgd_neg').classList.add('hidden'); }
+                        else { document.querySelector('.result_sgd_neg').classList.remove('hidden') }
+                        if (data.negative >= 0.95) { document.querySelector('.result_sgd_pos').classList.add('hidden'); }
+                        else { document.querySelector('.result_sgd_pos').classList.remove('hidden') }
                     } else {
                         document.querySelector('.sgd_class').classList.add('hidden');
                         document.getElementById('nullScore').textContent = 'Lo siento, tengo limitaciones para interpretar esta reseña, mi modelo es limitado!';
@@ -168,10 +243,10 @@
                     if (data.positive_gemini > 0 || data.negative_gemini > 0) {
                         document.getElementById('positive_gemini').textContent = `😁 ${data.positive_gemini}%`;
                         document.getElementById('negative_gemini').textContent = `😫 ${data.negative_gemini}%`;
-                        if (data.positive_gemini >=95) {document.querySelector('.result_neg').classList.add('hidden');}
-                        else {document.querySelector('.result_neg').classList.remove('hidden')}
-                        if (data.negative_gemini >=95) {document.querySelector('.result_pos').classList.add('hidden');}
-                        else {document.querySelector('.result_pos').classList.remove('hidden')}
+                        if (data.positive_gemini >= 95) { document.querySelector('.result_neg').classList.add('hidden'); }
+                        else { document.querySelector('.result_neg').classList.remove('hidden') }
+                        if (data.negative_gemini >= 95) { document.querySelector('.result_pos').classList.add('hidden'); }
+                        else { document.querySelector('.result_pos').classList.remove('hidden') }
                     } else {
                         document.querySelector('.gemini').classList.add('hidden');
                         document.querySelector('.display_none').style.display = 'none';
@@ -182,11 +257,11 @@
                     }
 
                     if (data.positive || data.negative > 0) {
-                    // if (data.positive && data.negative !== false) {
-                        createSentimentChart(data.positive , data.negative, 'sentimentChart');
+                        // if (data.positive && data.negative !== false) {
+                        createSentimentChart(data.positive, data.negative, 'sentimentChart');
                     }
 
-                    if (data.positive_gemini>0 || data.negative_gemini>0) {
+                    if (data.positive_gemini > 0 || data.negative_gemini > 0) {
                         createGeminiChart(data, 'sentimentChart_gemini');
                     }
                 };
@@ -272,4 +347,5 @@
         });
     </script>
 </body>
+
 </html>
