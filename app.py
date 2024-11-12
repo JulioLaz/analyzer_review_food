@@ -19,7 +19,8 @@ def classify_with_stars(value):
     elif value <= 60: stars = 3 
     elif value <= 80: stars = 4 
     else: stars = 5
-    return "⭐" * stars
+    ice=5-stars
+    return "⭐" * stars + "❄️"* ice
 
 @app.route('/', methods=['GET', 'POST'])
 def analyze_sentiment():
@@ -39,7 +40,8 @@ def analyze_sentiment():
         
         # Get Gemini analysis
       #   analyzer_gemini = '40% positive, 60% negative'  # Replace with actual gemini.chat(text)
-        analyzer_gemini = gemini.chat(text)
+        analyzer_gemini = 'Lo siento, tengo problemas para traducir este texto.'
+      #   analyzer_gemini = gemini.chat(text)
 
         print('analyzer_gemini:', analyzer_gemini)
         
@@ -58,6 +60,7 @@ def analyze_sentiment():
             none_gemini = 'None'
             positive_gemini = 0
             negative_gemini = 0
+            start_genimi='No data'
         
         # Prepare response data
         if filtered_text:
@@ -81,6 +84,7 @@ def analyze_sentiment():
             }
         else:
             print('filtered_text:', filtered_text)
+            start_sgd= 'No data'
             response_data = {
                 'positive_gemini': positive_gemini,
                 'negative_gemini': negative_gemini,
@@ -91,8 +95,8 @@ def analyze_sentiment():
                 'sentiment': 'unknown',
                 'positive': 0,
                 'negative': 0,
-                'start_sgd': 0,
-                'start_genimi': 0,
+                'start_sgd': start_sgd,
+                'start_genimi': start_genimi,
                 'gemini_result': analyzer_gemini
             }
         
