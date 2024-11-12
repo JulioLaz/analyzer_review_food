@@ -39,13 +39,16 @@
             </div>
 
             <div id="result" class="mt-4 hidden">
-                <h2 class="text-gray-600 text-lg mt-3 text-center mx-auto">Analysis Result - model SGDClassifier:</h2>
+                <div class="text-center">
+                    <span class="text-gray-600 text-lg mt-3">SGDClassifier analysis result:</span>
+                    <span id="start_sgd" class="text-xl"></span>
+                </div>                
                 <div class="sgd_class flex items-center justify-center">
-                    <div id='id_pos' class="text-yellow-500 text-lg font-bold mt-2 text-center mx-auto">
+                    <div id='id_pos' class="text-yellow-500 text-lg font-bold mt-2 text-center mx-auto result_sgd_pos">
                         <span>Positive:</span>
                         <span id="positiveScore" class=""></span>
                     </div>
-                    <div id='id_neg' class="text-blue-400 text-lg font-bold mt-2 text-center mx-auto">
+                    <div id='id_neg' class="text-blue-400 text-lg font-bold mt-2 text-center mx-auto result_sgd_neg">
                         <span>Negative:</span>
                         <span id="negativeScore" class=""></span>
                     </div>
@@ -56,14 +59,16 @@
                 <div id="sentimentChart" class="mt-1 sentimentChart"></div>
 
                 <hr class="border-t-3 border-gray-300 my-2">
-
-                <h2 class="text-gray-600 text-lg mt-3 text-center mx-auto">Gemini-IA analysis result:</h2>
+                <div class="text-center">
+                    <span class="text-gray-600 text-lg mt-3 ">Gemini-IA analysis result:</span>
+                    <span id="start_genimi" class="text-xl"></span>
+                </div>
                 <div class="flex items-center justify-center gemini">
-                    <div class="text-pink-400 text-lg font-bold mt-2 text-center mx-auto text_green">
+                    <div class="text-pink-400 text-lg font-bold mt-2 text-center mx-auto result_pos">
                         <span>Positive: </span>
                         <span id="positive_gemini" class=""></span>
                     </div>
-                    <div class="text-purple-500 text-lg font-bold mt-2 text-center mx-auto text_red">
+                    <div class="text-purple-500 text-lg font-bold mt-2 text-center mx-auto text_red result_neg ">
                         <span>Negative:</span>
                         <span id="negative_gemini" class=""></span>
                     </div>
@@ -91,7 +96,7 @@
             const clearPreviousResults = () => {
                 document.getElementById('result').classList.add('hidden');
                 ['positiveScore', 'negativeScore', 'nullScore', 'positive_gemini',
-                    'negative_gemini', 'translated_text', 'latency'].forEach(id => {
+                    'negative_gemini', 'translated_text', 'latency','start_genimi','start_sgd'].forEach(id => {
                         document.getElementById(id).textContent = '';
                     });
             };
@@ -99,7 +104,7 @@
             clearPreviousResults();
             document.getElementById('spinner').classList.remove('hidden');
 
-            ['text_green', 'text_red', 'sentimentChart', 'sentimentChart_gemini', 'sgd_class'].forEach(className => {
+            ['result_pos','result_neg','result_sgd_neg','result_sgd_pos', 'text_red', 'sentimentChart', 'sentimentChart_gemini', 'sgd_class'].forEach(className => {
                 document.querySelector('.' + className)?.classList.remove('hidden');
             });
 
@@ -136,6 +141,14 @@
                         document.getElementById('translated_text').textContent = data.translated_text;
                     }
 
+                    if (data.translated_text) {
+                        document.getElementById('start_genimi').textContent = data.start_genimi;
+                    }
+
+                    if (data.translated_text) {
+                        document.getElementById('start_sgd').textContent = data.start_sgd;
+                    }
+
                     if (data.latency) {
                         document.getElementById('latency').textContent = `Latency: ${data.latency} seg`;
                     }
@@ -143,6 +156,10 @@
                     if (data.filtered_text !== '' && data.result && data.positive >= 0) {
                         document.getElementById('positiveScore').textContent = `😁 ${(data.positive * 100).toFixed(0)}%`;
                         document.getElementById('negativeScore').textContent = `😫 ${(data.negative * 100).toFixed(0)}%`;
+                        if (data.positive >=0.95) {document.querySelector('.result_sgd_neg').classList.add('hidden');}
+                        else {document.querySelector('.result_sgd_neg').classList.remove('hidden')}
+                        if (data.negative >=0.95) {document.querySelector('.result_sgd_pos').classList.add('hidden');}
+                        else {document.querySelector('.result_sgd_pos').classList.remove('hidden')}
                     } else {
                         document.querySelector('.sgd_class').classList.add('hidden');
                         document.getElementById('nullScore').textContent = 'Lo siento, tengo limitaciones para interpretar esta reseña, mi modelo es limitado!';
@@ -151,6 +168,10 @@
                     if (data.positive_gemini > 0 || data.negative_gemini > 0) {
                         document.getElementById('positive_gemini').textContent = `😁 ${data.positive_gemini}%`;
                         document.getElementById('negative_gemini').textContent = `😫 ${data.negative_gemini}%`;
+                        if (data.positive_gemini >=95) {document.querySelector('.result_neg').classList.add('hidden');}
+                        else {document.querySelector('.result_neg').classList.remove('hidden')}
+                        if (data.negative_gemini >=95) {document.querySelector('.result_pos').classList.add('hidden');}
+                        else {document.querySelector('.result_pos').classList.remove('hidden')}
                     } else {
                         document.querySelector('.gemini').classList.add('hidden');
                         document.querySelector('.display_none').style.display = 'none';
@@ -165,7 +186,7 @@
                         createSentimentChart(data.positive , data.negative, 'sentimentChart');
                     }
 
-                    if (data.positive_gemini || data.negative_gemini) {
+                    if (data.positive_gemini>0 || data.negative_gemini>0) {
                         createGeminiChart(data, 'sentimentChart_gemini');
                     }
                 };
