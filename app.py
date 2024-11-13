@@ -3,8 +3,15 @@ from deep_translator import GoogleTranslator
 import time
 from sentiment_analyzer import OptimizedSentimentAnalyzer
 import gemini
-
+import gemini_frases
 app = Flask(__name__)
+
+@app.route('/create_phrases') 
+
+def create_phrases(): 
+   phrases = gemini_frases.chat() 
+   return jsonify({'phrases': phrases})
+
 
 # analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_10000.pkl')
 # analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_15000_11_Nov_2024_18hs_01min.pkl')
