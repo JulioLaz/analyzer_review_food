@@ -13,12 +13,22 @@
     </style>
 </head>
 
-<body class="bg-gray-900 min-h-screen">
-    <div class="container mx-auto px-4 py-6">
-        <div class="flex items-center justify-between max-w-xl mx-auto shadow-md">
-            <h1 class="text-2xl font-bold mb-2 text-center text-blue-300 mr-6">Sentiment Analysis for Food Reviews</h1>
-            <button id="showModalBtn" class=" text-white ml-6 mb-2 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" >
-                <svg fill="#3b82f6" width="36px" height="36px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+<style> .body { background-image: url('../assets/bg_meal.png'); background-size: cover; background-repeat: no-repeat; background-position: center center; } </style>
+
+<!-- <body class=""> -->
+<body class="bg-gray-900 min-h-screen body">
+    <div class="container mx-auto py-6">
+        <div class="flex items-end justify-end max-w-xl mx-auto shadow-md mb-2">
+            <!-- <h1 class="text-2xl font-bold mb-2 text-center text-blue-300 mr-6">Sentiment Analysis for Food Reviews</h1> -->
+            <!-- Botón para activar la función -->
+              <!-- <div class="flex items-end justify-end max-w-xl mx-auto shadow-md py-2"> -->
+                <!-- <div> -->
+                <button id="fetchPhrasesBtn" class="bg-red-500 text-white rounded text-sm pt-1 pb-2 px-3 hover:bg-red-600">
+                  generate random review
+                </button>
+              <!-- </div> -->
+            <button id="showModalBtn" class=" text-white ml-6 rounded-full hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-blue-500" >
+                <svg fill="#3b82f6" width="34px" height="34px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                     <g id="SVGRepo_iconCarrier"> <path d="M960 0c530.193 0 960 429.807 960 960s-429.807 960-960 960S0 1490.193 0 960 429.807 0 960 0Zm223.797 707.147c-28.531-29.561-67.826-39.944-109.227-39.455-55.225.657-114.197 20.664-156.38 40.315-100.942 47.024-178.395 130.295-242.903 219.312-11.616 16.025-17.678 34.946 2.76 49.697 17.428 12.58 29.978 1.324 40.49-9.897l.69-.74c.801-.862 1.591-1.72 2.37-2.565 11.795-12.772 23.194-25.999 34.593-39.237l2.85-3.31 2.851-3.308c34.231-39.687 69.056-78.805 115.144-105.345 27.4-15.778 47.142 8.591 42.912 35.963-2.535 16.413-11.165 31.874-17.2 47.744-21.44 56.363-43.197 112.607-64.862 168.888-23.74 61.7-47.405 123.425-70.426 185.398l-2 5.38-1.998 5.375c-20.31 54.64-40.319 108.872-53.554 165.896-10.575 45.592-24.811 100.906-4.357 145.697 11.781 25.8 36.77 43.532 64.567 47.566 37.912 5.504 78.906 6.133 116.003-2.308 19.216-4.368 38.12-10.07 56.57-17.005 56.646-21.298 108.226-54.146 154.681-92.755 47.26-39.384 88.919-85.972 126.906-134.292 12.21-15.53 27.004-32.703 31.163-52.596 3.908-18.657-12.746-45.302-34.326-34.473-11.395 5.718-19.929 19.867-28.231 29.27-10.42 11.798-21.044 23.423-31.786 34.92-21.488 22.987-43.513 45.463-65.634 67.831-13.54 13.692-30.37 25.263-47.662 33.763-21.59 10.609-38.785-1.157-36.448-25.064 2.144-21.954 7.515-44.145 15.046-64.926 30.306-83.675 61.19-167.135 91.834-250.686 19.157-52.214 38.217-104.461 56.999-156.816 17.554-48.928 32.514-97.463 38.834-149.3 4.357-35.71-4.9-72.647-30.269-98.937Zm63.72-401.498c-91.342-35.538-200.232 25.112-218.574 121.757-13.25 69.784 13.336 131.23 67.998 157.155 105.765 50.16 232.284-29.954 232.29-147.084.005-64.997-28.612-111.165-81.715-131.828Z" fill-rule="evenodd"/> </g>
@@ -28,10 +38,6 @@
 
         <!-- ###################################### -->
        
-          <!-- Botón para activar la función -->
-          <div class="flex items-center justify-end max-w-xl mx-auto shadow-md py-2">
-              <button id="fetchPhrasesBtn" class="bg-blue-500 text-white rounded text-sx pb-1 px-2 mb-1 hover:bg-blue-700">generate random review</button>
-            </div>
             <div id="spinner" class="hidden fixed inset-0 flex items-center justify-center">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
             </div>
@@ -58,11 +64,11 @@
                   </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <button id="closeModalBtn_phra" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  <button id="closeModalBtn_phra" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-400 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
                     close
                   </button>
                   
-                  <button id="copyToClipboardBtn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  <button id="copyToClipboardBtn" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
                      Copy 
                   </button>
 
@@ -116,24 +122,24 @@
         <!-- ###################################### -->
 
         <!-- Ventana emergente -->
-        <div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
-            aria-modal="true">
+        <div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
 
-                </div> <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                    aria-hidden="true">&#8203;</span>
-                <div
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                </div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true">&#8203;
+                </span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-10 sm:align-top sm:max-w-lg sm:w-full">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                                 <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
-                                </svg> </div>
+                                </svg>
+                            </div> -->
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                                     Info
@@ -144,7 +150,7 @@
                                         Evaluate the sentiment in % positive or negative, and rate it with stars according to the positive.
                                         For sentiment assessment, an SGDClassifier model was trained, which is contrasted with IA-gemini 1.5 trained for this same task!
                                     </p>
-                                    <div class="flex items-center">
+                                    <div class="flex items-center mt-2">
                                         <!-- <p class="text-gray-800  text-sx">my contact:</p> -->
                                         <a href="https://cv-lazarte-julio.web.app/" target="_blank">
                                             <svg width="44px" height="44px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,7 +181,7 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"> <button id="closeModalBtn"
                             type="button"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-400 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                             Close </button> </div>
                 </div>
             </div>
@@ -188,22 +194,25 @@
             
         </script>
 
-        <div class="max-w-xl mx-auto bg-white rounded-lg shadow-md px-6 py-2">
+        <div class="max-w-xl mx-auto bg-gray-800 rounded-lg shadow-md px-6 py-2">
             <form id="sentimentForm" class="space-y-4">
                 <div>
                     <div class="">
-                        <label class="block text-lg font-medium text-gray-700 mb-1">
+                        <h1 class="text-2xl font-bold mb-2 text-center text-red-500 mr-6">
+                            Sentiment Analysis for Food Reviews
+                        </h1>
+                        <label class="block text-sm font-medium text-gray-200 mb-1">
                             Enter Food Reviews:
                         </label>
                     </div>
 
                     <textarea id="textInput" name="text" rows="3"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-base"
                         required></textarea>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1">
+                    class="w-full bg-red-400 text-white py-2 px-4 rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 mt-1 text-sm">
                     Analyze Sentiment
                 </button>
             </form>
@@ -214,7 +223,7 @@
 
             <div id="result" class="mt-4 hidden">
                 <div class="text-center">
-                    <span class="text-gray-600 text-lg mt-3">SGDClassifier analysis result:</span>
+                    <span class="text-gray-200 text-lg mt-3">SGDClassifier analysis result:</span>
                     <span id="start_sgd" class="text-gray-500"></span>
                 </div>
                 <div class="sgd_class flex items-center justify-center">
@@ -234,7 +243,7 @@
 
                 <hr class="border-t-3 border-gray-300 my-2">
                 <div class="text-center">
-                    <span class="text-gray-600 text-lg mt-3 ">Gemini-IA analysis result:</span>
+                    <span class="text-gray-200 text-lg mt-3 ">Gemini-IA analysis result:</span>
                     <span id="start_genimi" class="text-gray-500"></span>
                 </div>
                 <div class="flex items-center justify-center gemini">
@@ -248,17 +257,17 @@
                     </div>
                 </div>
 
-                <div class="text-gray-600 text-base mt-2 text-center mx-auto gemini_result">
+                <div class="text-gray-200 text-base mt-2 text-center mx-auto gemini_result">
                     <span id="gemini_result" class=""></span>
                 </div>
 
                 <div id="sentimentChart_gemini" class="sentimentChart_gemini gemini display_none"></div>
                 <hr class="border-t-4 border-gray-400 my-2">
                 <div class="text-base mt-4 text-center mx-auto">
-                    <span class="text-gray-600 font-semibold">Traducción: </span>
-                    <span id="translated_text" class="text-gray-500"></span>
+                    <span class="text-gray-200 font-semibold">Traducción: </span>
+                    <span id="translated_text" class="text-gray-300"></span>
                 </div>
-                <div id="latency" class="text-right text-sm font-mono text-red-600"></div>
+                <div id="latency" class="text-right text-sm font-mono text-red-500"></div>
             </div>
         </div>
     </div>
@@ -394,7 +403,9 @@
                         showlegend: false,
                         xaxis: { visible: false },
                         yaxis: { visible: false, fixedrange: true },
-                        height: 80
+                        height: 80,
+                        paper_bgcolor: '#1f2937', // Color de fondo bg-gray-900 
+                        plot_bgcolor: '#1f2937'                        
                     };
 
                     Plotly.newPlot(chartId, chartData, layout, { staticPlot: true });
@@ -429,7 +440,9 @@
                         showlegend: false,
                         xaxis: { visible: false },
                         yaxis: { visible: false, fixedrange: true },
-                        height: 80
+                        height: 80,
+                        paper_bgcolor: '#1f2937', // Color de fondo bg-gray-900 
+                        plot_bgcolor: '#1f2937'
                     };
 
                     Plotly.newPlot(chartId, chartData, layout, { staticPlot: true });

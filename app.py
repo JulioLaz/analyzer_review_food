@@ -1,10 +1,17 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, send_from_directory, render_template, request, jsonify
 from deep_translator import GoogleTranslator
 import time
 from sentiment_analyzer import OptimizedSentimentAnalyzer
 import gemini
 import gemini_frases
+
 app = Flask(__name__)
+
+@app.route('/') 
+def home(): return render_template('analyze.html') 
+# Ruta para servir archivos estáticos desde la raíz 
+@app.route('/<path:filename>') 
+def send_file(filename): return send_from_directory('.', filename)
 
 @app.route('/create_phrases') 
 
