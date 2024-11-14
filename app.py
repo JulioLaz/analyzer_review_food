@@ -12,9 +12,6 @@ def create_phrases():
    phrases = gemini_frases.chat() 
    return jsonify({'phrases': phrases})
 
-
-# analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_10000.pkl')
-# analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_15000_11_Nov_2024_18hs_01min.pkl')
 analyzer = OptimizedSentimentAnalyzer.load_model('optimized_sentiment_model_2_20000_11_Nov_2024_20hs_11min.pkl')
 vocab = analyzer.vectorizer.vocabulary_
 
@@ -43,7 +40,7 @@ def analyze_sentiment():
             translated_text = GoogleTranslator(source='auto', target='es').translate(text)
             print(f"Translation translated_text: {translated_text}")
         except Exception as e:
-            translated_text = 'Lo siento, tengo problemas para traducir este texto.'
+            translated_text = "Sorry, I'm having trouble translating this text."
         
         # Get Gemini analysis
       #   analyzer_gemini = '40% positive, 60% negative'  # Replace with actual gemini.chat(text)

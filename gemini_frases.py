@@ -48,11 +48,11 @@ def chat():
 
     except ResourceExhausted:
         print("¡Advertencia! Se ha agotado la cuota o el crédito.")
-        return "Lo siento, se ha agotado la cuota o el crédito. Por favor, intenta nuevamente más tarde."
+        return "Sorry, quota or credit has been exhausted. Please try again later."
 
     except Exception as e:
         print("Error inesperado:", e)
-        return "Lo siento, ha ocurrido un error inesperado."
+        return "Sorry, an unexpected error has occurred.."
 
 if __name__ == "__main__":
     chat()
