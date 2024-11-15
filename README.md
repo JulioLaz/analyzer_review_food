@@ -1,6 +1,6 @@
 # Sentiment Analysis Web Application
 
-![alt text](image.png)
+![alt text](https://i.imgur.com/JeSH8qd.gif)
 
 ## Análisis basado en: fine-food-reviews de amazon
 
